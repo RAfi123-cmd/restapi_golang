@@ -7,6 +7,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Roll is a Model for sushi API
+type Roll struct {
+	ID          string `json: "id"`
+	Name        string `json: "name"`
+	Description string `json: "description"`
+	Ingredient  string `json: ingredient`
+}
+// Init Rolls var as a slice
+var rolls []Roll
+
 func main() {
 	// Init Router
 	router := mux.NewRouter()
