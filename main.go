@@ -50,7 +50,19 @@ func createRoll(w http.ResponseWriter, r *http.Request) {
 
 // update Single Sushi
 func updateRoll(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	for i, item := range rolls{
+		if item.ID == params["id"] {
+			rolls = append(rolls[:i], rolls[i+1:]...)
+			var newRoll Roll
+			json.NewDecoder(r.Body).Decode(&newRoll)
+			newRoll.ID = params["id"]
+			rolls  = append(rolls, newRoll)
+			json.NewEncoder(w).Encode(newRoll)
+			return
+		}
+	}
 }
 
 // delete Single Sushi
