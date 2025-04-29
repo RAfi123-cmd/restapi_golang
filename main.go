@@ -67,7 +67,14 @@ func updateRoll(w http.ResponseWriter, r *http.Request) {
 
 // delete Single Sushi
 func deleteRoll(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	for i, item := range rolls{
+		if item.ID == params["id"] {
+			rolls = append(rolls[:i], rolls[i+1:]...)
+			break
+		}
+	}
 }
 
 func main() {
