@@ -1,17 +1,22 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Selamat Datang di Website saya!")
-	})
+	// Init Router
+	router := mux.NewRouter()
 
-	fs := http.FileServer(http.Dir("static/"))
-	http.Handle("/static.", http.StripPrefix("/static/", fs))
+	// Handle Endpoint/Routing
+	router.HandleFunc("/sushi").Methods("GET")
+	router.HandleFunc("/sushi/{id}").Methods("GET")
+	router.HandleFunc("/sushi").Methods("POST")
+	router.HandleFunc("/sushi/{id}").Methods("POST")
+	router.HandleFunc("/sushi/{id}").Methods("DELETE")
 
-	http.ListenAndServe(":5000", nil)
+	log.Fatal(http.ListenAndServe(":5000", router))
 }
