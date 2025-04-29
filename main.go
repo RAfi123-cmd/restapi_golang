@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -39,7 +40,12 @@ func getRoll(w http.ResponseWriter, r *http.Request) {
 
 // add Single Sushi
 func createRoll(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	var newRoll  Roll
+	json.NewDecoder(r.Body).Decode(&newRoll)
+	newRoll.ID = strconv.Itoa(len(rolls) + 1)
+	rolls  = append(rolls, newRoll)
+	json.NewEncoder(w).Encode(newRoll)
 }
 
 // update Single Sushi
